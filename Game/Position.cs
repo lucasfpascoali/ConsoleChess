@@ -1,4 +1,4 @@
-﻿namespace Chess.Board
+﻿namespace Chess.Game
 {
     internal class Position
     {

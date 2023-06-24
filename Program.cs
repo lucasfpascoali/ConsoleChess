@@ -1,4 +1,4 @@
-﻿using Chess.Board;
+﻿using Chess.Game;
 
 namespace Chess
 {
@@ -6,9 +6,8 @@ namespace Chess
     {
         static void Main(string[] args)
         {
-            Position p = new(3, 4);
+            Board board = new(8, 8);
 
-            Console.WriteLine(p);
         }
     }
 }
