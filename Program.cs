@@ -8,6 +8,7 @@ namespace Chess
         {
             Board board = new(8, 8);
 
+            Screen.PrintBoard(board);
         }
     }
 }

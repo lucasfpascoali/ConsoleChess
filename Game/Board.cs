@@ -13,8 +13,9 @@
             Pieces = new Piece[Rows, Cols];
         }
 
-
-
-
+        public Piece Piece(int row, int col)
+        {
+            return Pieces[row, col];
+        }
     }
 }
