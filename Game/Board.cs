@@ -31,7 +31,7 @@ namespace Chess.Game
             return Piece(position) != null;
         }
 
-        public void PutPiece(Piece piece, Position position)
+        public void PlacePiece(Piece piece, Position position)
         {
             if (PositionUnavailable(position))
             {
@@ -40,6 +40,17 @@ namespace Chess.Game
 
             Pieces[position.Row, position.Col] = piece;
             piece.Position = position;
+        }
+
+        public Piece? RemovePiece(Position position)
+        {
+            if (!PositionUnavailable(position))
+                return null;
+
+            Piece aux = Piece(position);
+            aux.Position = null;
+            Pieces[position.Row, position.Col] = null;
+            return aux;
         }
 
         public bool ValidPosition(Position position)

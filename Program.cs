@@ -8,13 +8,26 @@ namespace Chess
     {
         static void Main(string[] args)
         {
-            Board board = new(8, 8);
-
             try
             {
-                ChessPosition pos = new ChessPosition('A', 1);
+                var match = new Match();
 
-                Console.WriteLine(pos.ToPosition());
+                while (!match.Finished)
+                {
+                    Console.Clear();
+                    Screen.PrintBoard(match.Board);
+                    Console.WriteLine();
+
+                    Console.Write("Type the origin position: ");
+                    Position origin = Screen.ReadChessPosition().ToPosition();
+                    Console.Write("Type the target position: ");
+                    Position target = Screen.ReadChessPosition().ToPosition();
+
+                    match.ExecuteMove(origin, target);
+                    Screen.PrintBoard(match.Board);
+                }
+
+
             }
             catch (BoardException e)
             {

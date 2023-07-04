@@ -15,6 +15,11 @@
             MovesCounter = 0;
         }
 
+        public void IncrementMoveCounter()
+        {
+            MovesCounter++;
+        }
+
 
     }
 }
