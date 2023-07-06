@@ -20,6 +20,13 @@ namespace Chess
 
                     Console.Write("Type the origin position: ");
                     Position origin = Screen.ReadChessPosition().ToPosition();
+
+                    bool[,] possibleMoves = match.Board.Piece(origin).PossibleMoves();
+
+                    Console.Clear();
+                    Screen.PrintBoard(match.Board, possibleMoves);
+                    Console.WriteLine();
+
                     Console.Write("Type the target position: ");
                     Position target = Screen.ReadChessPosition().ToPosition();
 

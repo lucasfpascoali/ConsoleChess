@@ -12,14 +12,28 @@ namespace Chess
                 Console.Write($"{8 - row} ");
                 for (int col = 0; col < board.Cols; col++)
                 {
-                    if (board.Piece(row, col) == null)
-                    {
-                        Console.Write("- ");
-                    }
-                    else
-                    {
-                        PrintPiece(board.Piece(row, col));
-                    }
+                    PrintPiece(board.Piece(row, col));
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("  A B C D E F G H");
+        }
+
+        public static void PrintBoard(Board board, bool[,] possibleMoves)
+        {
+            ConsoleColor defaultBackground = Console.BackgroundColor;
+            ConsoleColor modifiedBackground = ConsoleColor.DarkGray;
+
+            for (int row = 0; row < board.Rows; row++)
+            {
+                Console.Write($"{8 - row} ");
+                for (int col = 0; col < board.Cols; col++)
+                {
+                    if (possibleMoves[row, col])
+                        Console.BackgroundColor = modifiedBackground;
+
+                    PrintPiece(board.Piece(row, col));
+                    Console.BackgroundColor = defaultBackground;
                 }
                 Console.WriteLine();
             }
@@ -37,17 +51,22 @@ namespace Chess
 
         public static void PrintPiece(Piece piece)
         {
-            if (piece.Color == Color.White)
+            if (piece == null)
             {
-                Console.Write($"{piece} ");
+                Console.Write("- ");
+                return;
             }
-            else
+
+            if (piece.Color == Color.Black)
             {
                 ConsoleColor aux = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write($"{piece} ");
                 Console.ForegroundColor = aux;
+                return;
             }
+
+            Console.Write($"{piece} ");
         }
     }
 }
