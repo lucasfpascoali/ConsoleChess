@@ -30,17 +30,25 @@ namespace Chess.Chess
         {
             if (Board.Piece(position) == null)
             {
-                throw new BoardException("There is no piece in the origin position");
+                throw new BoardException("There is no piece in this position");
             }
 
             if (Board.Piece(position).Color != CurrentPlayer)
             {
-                throw new BoardException("The piece in origin position is not yours");
+                throw new BoardException("This piece is not yours");
             }
 
             if (!Board.Piece(position).HavePossibleMoves())
             {
-                throw new BoardException("The piece in origin position doesn't have any valid move");
+                throw new BoardException("This piece doesn't have any valid move");
+            }
+        }
+
+        public void ValidateTargetPosition(Position origin, Position target)
+        {
+            if (!Board.Piece(origin).CanMoveTo(target))
+            {
+                throw new BoardException("This move isn't possible");
             }
         }
 

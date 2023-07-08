@@ -32,9 +32,9 @@ namespace Chess
 
                     Console.Write("Type the target position: ");
                     Position target = Screen.ReadChessPosition().ToPosition();
+                    match.ValidateTargetPosition(origin, target);
 
                     match.PlaySet(origin, target);
-                    Screen.PrintBoard(match.Board);
                 }
                 catch (BoardException e)
                 {

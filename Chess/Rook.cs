@@ -20,7 +20,7 @@ namespace Chess.Chess
 
             // Up
             pos.SetValues(Position!.Row - 1, Position.Col);
-            while (Board.ValidPosition(pos) && CanGoTo(pos))
+            while (Board.ValidPosition(pos) && PossiblePlace(pos))
             {
                 arr[pos.Row, pos.Col] = true;
                 if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
@@ -31,7 +31,7 @@ namespace Chess.Chess
 
             // Down
             pos.SetValues(Position!.Row + 1, Position.Col);
-            while (Board.ValidPosition(pos) && CanGoTo(pos))
+            while (Board.ValidPosition(pos) && PossiblePlace(pos))
             {
                 arr[pos.Row, pos.Col] = true;
                 if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
@@ -42,7 +42,7 @@ namespace Chess.Chess
 
             // Left
             pos.SetValues(Position!.Row, Position.Col - 1);
-            while (Board.ValidPosition(pos) && CanGoTo(pos))
+            while (Board.ValidPosition(pos) && PossiblePlace(pos))
             {
                 arr[pos.Row, pos.Col] = true;
                 if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
@@ -53,7 +53,7 @@ namespace Chess.Chess
 
             // Right
             pos.SetValues(Position!.Row, Position.Col + 1);
-            while (Board.ValidPosition(pos) && CanGoTo(pos))
+            while (Board.ValidPosition(pos) && PossiblePlace(pos))
             {
                 arr[pos.Row, pos.Col] = true;
                 if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)

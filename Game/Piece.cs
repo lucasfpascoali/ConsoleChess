@@ -40,9 +40,14 @@
             return false;
         }
 
-        protected bool CanGoTo(Position pos)
+        public bool CanMoveTo(Position position)
         {
-            Piece p = Board.Piece(pos);
+            return PossibleMoves()[position.Row, position.Col];
+        }
+
+        protected bool PossiblePlace(Position position)
+        {
+            Piece p = Board.Piece(position);
             return p == null || p.Color != Color;
         }
     }
