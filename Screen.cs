@@ -5,6 +5,41 @@ namespace Chess
 {
     internal class Screen
     {
+        public static void PrintMatch(Match match)
+        {
+            Screen.PrintBoard(match.Board);
+            Console.WriteLine();
+            PrintCapturedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine($"Turn: {match.Turn}");
+            Console.WriteLine($"Waiting {match.CurrentPlayer} to play...");
+        }
+
+        public static void PrintCapturedPieces(Match match)
+        {
+            Console.WriteLine("Captured Pieces: ");
+            Console.Write("White: ");
+            PrintCollection(match.CapturedPiecesByColor(Color.White));
+            Console.Write("Black: ");
+            PrintCollection(match.CapturedPiecesByColor(Color.Black));
+        }
+
+        public static void PrintCollection(HashSet<Piece> pieces)
+        {
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.Write("[ ");
+            foreach (Piece piece in pieces)
+            {
+                if (piece.Color == Color.Black)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                }
+                Console.Write($"{piece} ");
+            }
+            Console.ForegroundColor = aux;
+            Console.WriteLine("]");
+        }
+
         public static void PrintBoard(Board board)
         {
             for (int row = 0; row < board.Rows; row++)
