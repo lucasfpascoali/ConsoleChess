@@ -22,6 +22,24 @@
             MovesCounter++;
         }
 
+        public bool HavePossibleMoves()
+        {
+            bool[,] arr = PossibleMoves();
+            for (int row = 0; row < Board.Rows; row++)
+            {
+                for (int col = 0; col < Board.Cols; col++)
+                {
+                    if (arr[row, col])
+                    {
+                        return true;
+                    }
+                }
+
+            }
+
+            return false;
+        }
+
         protected bool CanGoTo(Position pos)
         {
             Piece p = Board.Piece(pos);

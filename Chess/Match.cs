@@ -1,12 +1,13 @@
 ﻿using Chess.Game;
+using Chess.Game.Exceptions;
 
 namespace Chess.Chess
 {
     internal class Match
     {
         public Board Board { get; private set; }
-        private int Turn;
-        private Color CurrentPlayer;
+        public int Turn { get; private set; }
+        public Color CurrentPlayer { get; private set; }
         public bool Finished { get; private set; }
 
         public Match()
@@ -18,13 +19,48 @@ namespace Chess.Chess
             PlacePieces();
         }
 
-        public void ExecuteMove(Position origin, Position target)
+        public void PlaySet(Position origin, Position target)
+        {
+            ExecuteMove(origin, target);
+            Turn++;
+            ChangeCurrentPlayer();
+        }
+
+        public void ValidateOriginPosition(Position position)
+        {
+            if (Board.Piece(position) == null)
+            {
+                throw new BoardException("There is no piece in the origin position");
+            }
+
+            if (Board.Piece(position).Color != CurrentPlayer)
+            {
+                throw new BoardException("The piece in origin position is not yours");
+            }
+
+            if (!Board.Piece(position).HavePossibleMoves())
+            {
+                throw new BoardException("The piece in origin position doesn't have any valid move");
+            }
+        }
+
+        private void ExecuteMove(Position origin, Position target)
         {
             Piece? p = Board.RemovePiece(origin);
-            p.IncrementMoveCounter();
+            p!.IncrementMoveCounter();
             Piece? capturedPiece = Board.RemovePiece(target);
             Board.PlacePiece(p, target);
+        }
 
+        private void ChangeCurrentPlayer()
+        {
+            if (CurrentPlayer == Color.Black)
+            {
+                CurrentPlayer = Color.White;
+                return;
+            }
+
+            CurrentPlayer = Color.Black;
         }
 
         private void PlacePieces()
