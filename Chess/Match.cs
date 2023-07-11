@@ -9,6 +9,7 @@ namespace Chess.Chess
         public int Turn { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public bool Finished { get; private set; }
+        public bool Check { get; private set; } = false;
         private HashSet<Piece> Pieces;
         private HashSet<Piece> CapturedPieces;
 
@@ -25,7 +26,20 @@ namespace Chess.Chess
 
         public void PlaySet(Position origin, Position target)
         {
-            ExecuteMove(origin, target);
+            Piece? capturedPiece = ExecuteMove(origin, target);
+
+            if (IsKingInCheck(CurrentPlayer))
+            {
+                UndoMove(origin, target, capturedPiece);
+                throw new BoardException("You can't do this move because your king is or will be in check");
+            }
+
+            Check = false;
+            if (IsKingInCheck(Oponnent(CurrentPlayer)))
+            {
+                Check = true;
+            }
+
             Turn++;
             ChangeCurrentPlayer();
         }
@@ -73,7 +87,7 @@ namespace Chess.Chess
         public HashSet<Piece> PiecesInGameByColor(Color color)
         {
             HashSet<Piece> aux = new HashSet<Piece>();
-            foreach (Piece piece in CapturedPieces)
+            foreach (Piece piece in Pieces)
             {
                 if (piece.Color == color)
                 {
@@ -85,7 +99,39 @@ namespace Chess.Chess
             return aux;
         }
 
-        private void ExecuteMove(Position origin, Position target)
+        private bool IsKingInCheck(Color color)
+        {
+            var king = King(color) ?? throw new BoardException($"There is no {color} King on the board");
+            foreach (Piece piece in PiecesInGameByColor(Oponnent(color)))
+            {
+                return piece.PossibleMoves()[king.Position!.Row, king.Position!.Col];
+            }
+
+            return false;
+        }
+
+        private Color Oponnent(Color color)
+        {
+            if (color == Color.White)
+                return Color.Black;
+
+            return Color.White;
+        }
+
+        private Piece? King(Color color)
+        {
+            foreach (Piece piece in PiecesInGameByColor(color))
+            {
+                if (piece is King)
+                {
+                    return piece;
+                }
+            }
+
+            return null;
+        }
+
+        private Piece? ExecuteMove(Position origin, Position target)
         {
             Piece? p = Board.RemovePiece(origin);
             p!.IncrementMoveCounter();
@@ -95,6 +141,20 @@ namespace Chess.Chess
             {
                 CapturedPieces.Add(capturedPiece);
             }
+
+            return capturedPiece;
+        }
+
+        private void UndoMove(Position origin, Position target, Piece? capturedPiece)
+        {
+            Piece piece = Board.RemovePiece(target)!;
+            piece.DecrementMoveCounter();
+            if (capturedPiece != null)
+            {
+                Board.PlacePiece(capturedPiece, target);
+                CapturedPieces.Remove(capturedPiece);
+            }
+            Board.PlacePiece(piece, origin);
         }
 
         private void ChangeCurrentPlayer()

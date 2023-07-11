@@ -22,6 +22,11 @@
             MovesCounter++;
         }
 
+        public void DecrementMoveCounter()
+        {
+            MovesCounter--;
+        }
+
         public bool HavePossibleMoves()
         {
             bool[,] arr = PossibleMoves();

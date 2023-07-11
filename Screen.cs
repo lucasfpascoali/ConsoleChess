@@ -13,6 +13,10 @@ namespace Chess
             Console.WriteLine();
             Console.WriteLine($"Turn: {match.Turn}");
             Console.WriteLine($"Waiting {match.CurrentPlayer} to play...");
+            if (match.Check)
+            {
+                Console.WriteLine("You are in CHECK!");
+            }
         }
 
         public static void PrintCapturedPieces(Match match)
